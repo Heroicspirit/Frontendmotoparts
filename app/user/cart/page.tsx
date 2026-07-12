@@ -34,30 +34,30 @@ export default function CartPage() {
               <Link 
                 href="/user/dashboard"
                 className="bg-blue-500 hover:bg-blue-600 text-white font-semibold px-6 py-3 rounded-full transition shadow-lg shadow-blue-500/10"
-              >
+            >
                 Continue Shopping
-              </Link>
+            </Link>
             </div>
-          ) : (
+        ) : (
             /* Cart Items */
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Cart Items List */}
-              <div className="lg:col-span-2 space-y-4">
+            <div className="lg:col-span-2 space-y-4">
                 {cartItems.map((item) => (
-                  <div key={item.product} className="bg-[#151923] border border-slate-800 rounded-xl p-4 flex gap-4">
+                <div key={item.product} className="bg-[#151923] border border-slate-800 rounded-xl p-4 flex gap-4">
                     <div className="w-24 h-24 rounded-lg overflow-hidden bg-[#0a0c10] shrink-0">
-                      <img 
+                    <img 
                         src={item.image} 
                         alt={item.title} 
                         className="w-full h-full object-cover"
-                      />
+                    />
                     </div>
                     <div className="flex-1 flex flex-col justify-between">
-                      <div>
+                    <div>
                         <h3 className="text-sm font-semibold text-white">{item.title}</h3>
                         <p className="text-lg font-bold text-white mt-1">Rs {item.price.toFixed(2)}</p>
-                      </div>
-                      <div className="flex items-center justify-between">
+                    </div>
+                    <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <button
                             onClick={() => updateQuantity(item.product, item.quantity - 1)}
