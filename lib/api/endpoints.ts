@@ -25,4 +25,11 @@ export const API = {
         UPDATE_STATUS: (id: string) => `/api/orders/${id}/status`,
         UPDATE_PAYMENT_STATUS: (id: string) => `/api/orders/${id}/payment-status`,
     },
+    CART: {
+        GET: '/api/cart',
+        ADD: '/api/cart/add',
+        UPDATE_ITEM: (productId: string) => `/api/cart/item/${productId}`,
+        REMOVE_ITEM: (productId: string) => `/api/cart/item/${productId}`,
+        CLEAR: '/api/cart/clear',
+    },
 }
