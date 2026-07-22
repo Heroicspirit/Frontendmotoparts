@@ -23,7 +23,8 @@ export default function LoginForm() {
 
     if (token) {
       // Store token and redirect
-      document.cookie = `token=${token}; path=/; max-age=2592000`; // 30 days
+      document.cookie = `auth_token=${token}; path=/; max-age=2592000`; // 30 days
+      document.cookie = `user_data=${encodeURIComponent(JSON.stringify({}))}; path=/; max-age=2592000`;
       router.replace('/user/dashboard');
     } else if (error === 'google_auth_failed') {
       setServerError('Google authentication failed. Please try again.');
@@ -50,6 +51,10 @@ export default function LoginForm() {
           document.cookie = `auth_token=${result.token}; path=/; max-age=2592000`;
           document.cookie = `user_data=${encodeURIComponent(JSON.stringify(result.data))}; path=/; max-age=2592000`;
           
+          // Also set localStorage for AuthContext compatibility
+          localStorage.setItem('token', result.token);
+          localStorage.setItem('user', JSON.stringify(result.data));
+          
           if (result.data?.role === 'admin') {
              router.replace("/admin");
           } else if (result.data?.role === 'user') {
@@ -57,7 +62,7 @@ export default function LoginForm() {
           } else {
              router.replace("/");
           }
-          router.refresh(); 
+          router.refresh();
         } else {
           setServerError(result.message);
         }

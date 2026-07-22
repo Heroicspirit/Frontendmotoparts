@@ -19,8 +19,36 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [loading, setLoading] = useState(true);
     const router = useRouter();
 
-    const checkAuth = () => {
+    const checkAuth = async () => {
         try {
+            // Check URL params for token (from OAuth redirects)
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlToken = urlParams.get('token');
+            
+            if (urlToken) {
+                // Set token from URL and clean up URL
+                document.cookie = `auth_token=${urlToken}; path=/; max-age=604800`;
+                // Also set localStorage for components that rely on it (e.g. payment page)
+                localStorage.setItem('token', urlToken);
+                window.history.replaceState({}, '', window.location.pathname);
+                setIsAuthenticated(true);
+                setLoading(false);
+                return;
+            }
+
+            // Check for token in localStorage (client-side fallback)
+            const localToken = localStorage.getItem('token');
+            if (localToken) {
+                setIsAuthenticated(true);
+                const localUser = localStorage.getItem('user');
+                if (localUser) {
+                    setUser(JSON.parse(localUser));
+                }
+                setLoading(false);
+                return;
+            }
+
+            // Check document.cookie as fallback
             const token = document.cookie.split('; ').find(row => row.startsWith('auth_token='));
             const userData = document.cookie.split('; ').find(row => row.startsWith('user_data='));
             
@@ -50,6 +78,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const logout = () => {
         document.cookie = 'auth_token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
         document.cookie = 'user_data=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
         setIsAuthenticated(false);
         setUser(null);
         router.push("/login");
