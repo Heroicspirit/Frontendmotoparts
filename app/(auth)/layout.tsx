@@ -12,7 +12,7 @@ export default function AuthLayout({
         <div className="relative hidden md:block h-full w-full bg-[#0a0c10]">
           <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 via-transparent to-transparent z-10 pointer-events-none" />
           <Image
-            src="/images/loginphoto.jpg"
+            src="/images/engine.webp"
             alt="Music Headphones"
             fill
             priority

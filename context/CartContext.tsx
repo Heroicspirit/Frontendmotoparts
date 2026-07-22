@@ -78,14 +78,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     try {
       const result = await getCart();
       if (result.success && result.data?.items) {
-        const backendItems = result.data.items.map((item: any) => ({
-          product: item.product?._id || item.product,
-          title: item.product?.title || item.title,
-          image: item.product?.image || item.image,
-          price: item.product?.price || item.price,
-          quantity: item.quantity,
-          _id: item._id,
-        }));
+        const backendUrl = 'http://localhost:5001';
+        const backendItems = result.data.items.map((item: any) => {
+          const rawImage = item.product?.image || item.image || '';
+          return {
+            product: item.product?._id || item.product,
+            title: item.product?.title || item.title,
+            image: rawImage.startsWith('http') ? rawImage : `${backendUrl}${rawImage}`,
+            price: item.product?.price || item.price,
+            quantity: item.quantity,
+            _id: item._id,
+          };
+        });
         setCartItems(backendItems);
       }
     } catch {
