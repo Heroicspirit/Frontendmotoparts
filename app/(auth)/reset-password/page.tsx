@@ -9,7 +9,6 @@ export default async function Page({
   const resolvedParams = await searchParams;
   const token = resolvedParams.token as string | undefined;
 
-
   if (!token) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-white px-4">
@@ -33,7 +32,6 @@ export default async function Page({
       </div>
     );
   }
-
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4">

@@ -6,7 +6,7 @@ export default function FeaturedCategories() {
       <h2 className="text-2xl font-bold mb-8 text-white">Featured Categories</h2>
       
       <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-        {/* Big Card: Bike Parts */}
+        
         <div className="md:col-span-5 group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[380px] flex items-end p-6">
           <img 
             src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=600&q=80" 
@@ -19,9 +19,8 @@ export default function FeaturedCategories() {
           </div>
         </div>
 
-        {/* Split Container Right */}
         <div className="md:col-span-7 flex flex-col gap-6">
-          {/* Top Row: Riding Gear */}
+          
           <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[178px] flex items-end p-6">
             <img 
               src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=800&q=80" 
@@ -33,7 +32,6 @@ export default function FeaturedCategories() {
             </div>
           </div>
 
-          {/* Bottom Row: Tires */}
           <div className="group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[178px] flex items-end p-6">
             <img 
               src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&q=80" 

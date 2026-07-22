@@ -9,13 +9,14 @@ import {
   ChevronLeft, 
   ChevronRight, 
   CheckCircle2, 
-  X 
+  X,
+  Search 
 } from "lucide-react";
 import Header from "../_components/Header";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { getProductsByCategory } from "@/lib/api/products";
+import { getProductsByCategory, searchProducts } from "@/lib/api/products";
 
 const MAX_PRICE = 2000;
 
@@ -29,6 +30,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 
 export default function BikePartsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { addToCart } = useCart();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -39,10 +41,17 @@ export default function BikePartsPage() {
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   const [sortOption, setSortOption] = useState<SortOption>("default");
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    const q = searchParams.get('q');
+    if (q) {
+      setSearchQuery(q);
+      handleSearch(q);
+    } else if (products.length === 0) {
+      fetchProducts();
+    }
+  }, [searchParams]);
 
   const fetchProducts = async () => {
     try {
@@ -53,6 +62,27 @@ export default function BikePartsPage() {
       }
     } catch (error) {
       console.error('Failed to fetch products:', error);
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSearch = async (query: string) => {
+    setSearchQuery(query);
+    if (!query.trim()) {
+      fetchProducts();
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await searchProducts(query);
+      if (response.success) {
+        setProducts(response.data || response.products || []);
+      }
+    } catch (error) {
+      console.error('Failed to search products:', error);
       setProducts([]);
     } finally {
       setLoading(false);
@@ -85,14 +115,12 @@ export default function BikePartsPage() {
     setInStockOnly(false);
   };
 
-  // Combined filters: brand, price range, and stock availability
   const filteredProducts = products.filter((product: any) => {
     if (selectedBrand && product.brand?.toLowerCase() !== selectedBrand.toLowerCase()) {
       return false;
     }
 
     const price = parseFloat(product.price);
-    // Treat MAX_PRICE as "no upper limit" (i.e. "Rs 2000+")
     if (maxPrice < MAX_PRICE && !isNaN(price) && price > maxPrice) {
       return false;
     }
@@ -104,22 +132,20 @@ export default function BikePartsPage() {
     return true;
   });
 
-  // Apply sorting on top of the filtered results (doesn't mutate the original array)
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     const priceA = parseFloat(a.price) || 0;
     const priceB = parseFloat(b.price) || 0;
 
     if (sortOption === "priceHigh") return priceB - priceA;
     if (sortOption === "priceLow") return priceA - priceB;
-    return 0; // "default" — keep original order
+    return 0;
   });
 
   return (
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
       <Header />
       <main className="flex-1 p-6 lg:p-10">
-      
-      {/* SUCCESS FLOATING TOAST NOTIFICATION */}
+
       {showToast && (
         <div className="fixed top-6 right-6 z-50 bg-[#1f2635] border border-slate-800 rounded-xl p-4 shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
           <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
@@ -137,15 +163,13 @@ export default function BikePartsPage() {
       )}
 
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-8">
-        
-        {/* SIDEBAR FILTERS */}
+
         <aside className="w-full lg:w-60 shrink-0 space-y-6">
           <div className="flex items-center justify-between pb-2 border-b border-slate-900">
             <h3 className="text-sm font-bold tracking-wider uppercase text-white">Filters</h3>
             <SlidersHorizontal className="w-4 h-4 text-slate-400" />
           </div>
 
-          {/* Brand Checklist */}
           <div className="space-y-3">
             <div className="flex items-center justify-between cursor-pointer group">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Brand</span>
@@ -166,7 +190,6 @@ export default function BikePartsPage() {
             </div>
           </div>
 
-          {/* Price Range Section */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Price Range</span>
@@ -194,7 +217,6 @@ export default function BikePartsPage() {
             </div>
           </div>
 
-          {/* Compatibility Selector drop list */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Compatibility</span>
@@ -206,7 +228,6 @@ export default function BikePartsPage() {
             </button>
           </div>
 
-          {/* Availability Toggle options */}
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Availability</span>
@@ -224,10 +245,8 @@ export default function BikePartsPage() {
           </div>
         </aside>
 
-        {/* PRODUCTS CATALOG MODULE */}
         <div className="flex-1 space-y-6">
-          
-          {/* List Toolbar Actions */}
+
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-900">
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">Bike Parts</h1>
@@ -236,7 +255,25 @@ export default function BikePartsPage() {
               </p>
             </div>
 
-            {/* Catalog Sorting Options Selector */}
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full bg-[#111319] border border-slate-800/80 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-slate-700 transition"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => handleSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
             <div className="relative flex items-center gap-2 self-end sm:self-auto">
               <span className="text-xs text-slate-500">Sort by:</span>
               <button
@@ -249,7 +286,7 @@ export default function BikePartsPage() {
 
               {sortMenuOpen && (
                 <>
-                  {/* Backdrop to close menu on outside click */}
+                  
                   <div 
                     className="fixed inset-0 z-10" 
                     onClick={() => setSortMenuOpen(false)} 
@@ -277,14 +314,12 @@ export default function BikePartsPage() {
             </div>
           </div>
 
-          {/* Loading State */}
           {loading && (
             <div className="text-center text-slate-500 text-sm py-12">
               Loading products...
             </div>
           )}
 
-          {/* Empty State */}
           {!loading && sortedProducts.length === 0 && (
             <div className="flex flex-col items-center justify-center gap-4 text-center text-slate-500 text-sm py-12">
               <span>No products found for the selected filters.</span>
@@ -297,7 +332,6 @@ export default function BikePartsPage() {
             </div>
           )}
 
-          {/* Products Cards System Response Grid */}
           {!loading && sortedProducts.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {sortedProducts.map((product: any) => {
@@ -307,8 +341,7 @@ export default function BikePartsPage() {
 
                 return (
                   <div key={productId} className="group bg-[#111319] border border-slate-900 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-slate-800 transition duration-150">
-                    
-                    {/* Image Section Frame with Action Badge Layering */}
+
                     <div className="relative rounded-xl overflow-hidden aspect-square bg-[#0a0c10] flex items-center justify-center">
                       {product.tag && (
                         <span className="absolute top-3 left-3 z-10 bg-blue-500 text-white text-[9px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider">
@@ -320,8 +353,7 @@ export default function BikePartsPage() {
                           {product.discount}
                         </span>
                       )}
-                      
-                      {/* Heart Wishlist Trigger */}
+
                       <button 
                         onClick={() => toggleFavorite(productId)}
                         className="absolute top-3 right-3 z-10 p-1.5 bg-[#0a0c10]/40 backdrop-blur-sm rounded-full text-slate-400 hover:text-rose-500 hover:scale-105 transition"
@@ -339,7 +371,6 @@ export default function BikePartsPage() {
                       />
                     </div>
 
-                    {/* Information content block */}
                     <div className="space-y-3 flex-1 flex flex-col justify-between">
                       <div className="space-y-1">
                         <span className="text-[10px] font-bold text-slate-500 tracking-wider uppercase">
@@ -359,7 +390,6 @@ export default function BikePartsPage() {
                         )}
                       </div>
 
-                      {/* Pricing Matrix & Purchase Trigger */}
                       <div className="space-y-3 pt-1">
                         <div className="flex items-baseline gap-2">
                           <span className="text-sm font-bold text-white">
@@ -399,7 +429,6 @@ export default function BikePartsPage() {
             </div>
           )}
 
-          {/* Bottom Pagination Interface Control Footer */}
           <div className="flex items-center justify-center gap-2 pt-8">
             <button className="p-2 bg-[#111319] border border-slate-900 rounded-xl text-slate-500 hover:text-slate-300 transition disabled:opacity-40" disabled>
               <ChevronLeft className="w-4 h-4" />

@@ -5,7 +5,7 @@ export default function Footer() {
     <footer className="bg-[#0a0c10] border-t border-slate-900">
       <div className="max-w-7xl mx-auto px-6 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Brand Section */}
+          
           <div className="space-y-4">
             <h3 className="text-xl font-bold text-white">MotoParts</h3>
             <p className="text-sm text-slate-400 leading-relaxed">
@@ -13,7 +13,6 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Quick Links */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Shop</h4>
             <ul className="space-y-2">
@@ -23,7 +22,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Support */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Support</h4>
             <ul className="space-y-2">
@@ -34,7 +32,6 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
             <h4 className="text-sm font-bold text-white uppercase tracking-wider mb-4">Legal</h4>
             <ul className="space-y-2">

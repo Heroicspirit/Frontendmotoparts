@@ -39,8 +39,7 @@ export default function UserDashboardPage() {
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
       <Header />
       <main className="flex-1 pb-16">
-      
-      {/* SUCCESS FLOATING TOAST NOTIFICATION */}
+
       {showToast && (
         <div className="fixed top-6 right-6 z-50 bg-[#1f2635] border border-slate-800 rounded-xl p-4 shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
           <CheckCircle2 className="w-5 h-5 text-blue-400 shrink-0" />
@@ -56,7 +55,7 @@ export default function UserDashboardPage() {
           </button>
         </div>
       )}
-      {/* HERO SECTION */}
+      
       <section className="relative bg-gradient-to-b from-[#131722] to-[#0f1115] py-20 lg:py-32 overflow-hidden">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6 z-10">
@@ -83,46 +82,46 @@ export default function UserDashboardPage() {
         </div>
       </section>
 
-      {/* FEATURED CATEGORIES */}
       <section className="max-w-7xl mx-auto px-6 py-16 w-full">
         <h2 className="text-2xl font-bold mb-8 text-white">Featured Categories</h2>
         
         <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-          {/* Big Card: Bike Parts */}
-          <Link href="/user/bikeparts" className="md:col-span-5 group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[380px] flex items-end p-6 cursor-pointer">
+          
+          <Link href="/user/bikeparts" className="md:col-span-5 group relative overflow-hidden rounded-2xl border border-slate-800 h-[380px] flex items-end p-6 cursor-pointer">
             <img 
-              src="https://images.unsplash.com/photo-1616422285623-13ff0162193c?w=600&q=80" 
+              src="/images/motopa.jpg" 
               alt="Bike Engine Parts" 
-              className="absolute inset-0 w-full h-full object-cover -z-10 group-hover:scale-105 transition duration-500 brightness-[0.65]" 
+              className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" 
             />
-            <div className="space-y-1">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            <div className="relative z-10 space-y-1">
               <h3 className="text-xl font-bold text-white">Bike Parts</h3>
               <p className="text-sm text-slate-400">Engines, Exhausts & Brakes</p>
             </div>
           </Link>
 
-          {/* Split Container Right */}
           <div className="md:col-span-7 flex flex-col gap-6">
-            {/* Top Row: Riding Gear */}
-            <Link href="/user/ridinggear" className="group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[178px] flex items-end p-6 cursor-pointer">
+            
+            <Link href="/user/ridinggear" className="group relative overflow-hidden rounded-2xl border border-slate-800 h-[178px] flex items-end p-6 cursor-pointer">
               <img 
-                src="https://images.unsplash.com/photo-1599819811279-d5ad9cccf838?w=800&q=80" 
-                alt="Riding Gear Helmet" 
-                className="absolute inset-0 w-full h-full object-cover -z-10 group-hover:scale-105 transition duration-500 brightness-[0.55]" 
+                src="/images/riding gear.jpg" 
+                alt="Riding Gear" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" 
               />
-              <div className="space-y-0.5">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="relative z-10 space-y-0.5">
                 <h3 className="text-lg font-bold text-white">Riding Gear</h3>
               </div>
             </Link>
 
-            {/* Bottom Row: Tires */}
-            <Link href="/user/tires" className="group relative overflow-hidden rounded-2xl bg-gradient-to-t from-black/80 to-transparent border border-slate-800 h-[178px] flex items-end p-6 cursor-pointer">
+            <Link href="/user/tires" className="group relative overflow-hidden rounded-2xl border border-slate-800 h-[178px] flex items-end p-6 cursor-pointer">
               <img 
-                src="https://images.unsplash.com/photo-1609630875171-b1321377ee65?w=800&q=80" 
+                src="/images/tire.jpg" 
                 alt="Motorcycle Tires" 
-                className="absolute inset-0 w-full h-full object-cover -z-10 group-hover:scale-105 transition duration-500 brightness-[0.5]" 
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition duration-500" 
               />
-              <div className="space-y-0.5">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+              <div className="relative z-10 space-y-0.5">
                 <h3 className="text-lg font-bold text-white">Tires</h3>
               </div>
             </Link>
@@ -130,7 +129,6 @@ export default function UserDashboardPage() {
         </div>
       </section>
 
-      {/* POPULAR PRODUCTS */}
       <section className="max-w-7xl mx-auto px-6 py-12 w-full">
         <div className="flex items-end justify-between mb-8">
           <div>
@@ -171,7 +169,6 @@ export default function UserDashboardPage() {
         </div>
       </section>
 
-      {/* FLASH SALE */}
       <section className="max-w-7xl mx-auto px-6 py-12">
         <div className="relative rounded-3xl bg-gradient-to-r from-[#17223b] via-[#111726] to-[#0f121d] border border-slate-800/80 p-8 sm:p-12 overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-8">
           <div className="space-y-4 max-w-xl text-center lg:text-left">
@@ -185,7 +182,7 @@ export default function UserDashboardPage() {
               Grab the best deals on premium riding gear, exhausts, and performance kits.
             </p>
             <div className="flex items-center justify-center lg:justify-start gap-3 pt-2">
-              {/* Countdown Blocks */}
+              
               {[
                 { val: "08", label: "Hours" },
                 { val: "42", label: "Mins" },
@@ -207,7 +204,6 @@ export default function UserDashboardPage() {
       </section>
       </main>
 
-      {/* FOOTER */}
       <footer className="border-t border-slate-900 bg-slate-950/40 px-6 py-12 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-left">

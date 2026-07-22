@@ -16,7 +16,7 @@ export default function FlashSale() {
             Grab the best deals on premium riding gear, exhausts, and performance kits.
           </p>
           <div className="flex items-center justify-center lg:justify-start gap-3 pt-2">
-            {/* Countdown Blocks */}
+            
             {[
               { val: "08", label: "Hours" },
               { val: "42", label: "Mins" },

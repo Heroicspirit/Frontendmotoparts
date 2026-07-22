@@ -152,7 +152,7 @@ export default function AdminAddProductPage() {
                 required
                 value={formData.title}
                 onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="Product title"
               />
             </div>
@@ -166,7 +166,7 @@ export default function AdminAddProductPage() {
                 required
                 value={formData.brand}
                 onChange={(e) => setFormData({ ...formData, brand: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="Brand name"
               />
             </div>
@@ -179,7 +179,7 @@ export default function AdminAddProductPage() {
                 required
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               >
                 <option value="">Select category</option>
                 <option value="bikeparts">Bike Parts</option>
@@ -197,7 +197,7 @@ export default function AdminAddProductPage() {
                 type="text"
                 value={formData.discountBadge}
                 onChange={(e) => setFormData({ ...formData, discountBadge: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="e.g., 20% OFF"
               />
             </div>
@@ -211,7 +211,7 @@ export default function AdminAddProductPage() {
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={3}
-              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
               placeholder="Product description"
             />
           </div>
@@ -235,7 +235,7 @@ export default function AdminAddProductPage() {
                 step="0.01"
                 value={formData.price}
                 onChange={(e) => setFormData({ ...formData, price: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="0.00"
               />
             </div>
@@ -250,7 +250,7 @@ export default function AdminAddProductPage() {
                 step="0.01"
                 value={formData.originalPrice}
                 onChange={(e) => setFormData({ ...formData, originalPrice: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="0.00"
               />
             </div>
@@ -274,7 +274,7 @@ export default function AdminAddProductPage() {
                 min="0"
                 value={formData.stock}
                 onChange={(e) => setFormData({ ...formData, stock: e.target.value })}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="0"
               />
               <p className="text-xs text-gray-500 mt-1">
@@ -357,14 +357,14 @@ export default function AdminAddProductPage() {
                 type="text"
                 value={spec.label}
                 onChange={(e) => handleSpecChange(index, "label", e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="Label (e.g., Material)"
               />
               <input
                 type="text"
                 value={spec.value}
                 onChange={(e) => handleSpecChange(index, "value", e.target.value)}
-                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900"
                 placeholder="Value (e.g., Aluminum)"
               />
               {formData.specs.length > 1 && (

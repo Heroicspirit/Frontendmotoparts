@@ -4,7 +4,6 @@ import { Home, Settings, ShoppingCart, ShieldAlert, LogOut, PackageSearch } from
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-
 export default function UserLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 

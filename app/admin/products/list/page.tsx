@@ -41,7 +41,6 @@ export default function ProductsListPage() {
       const data = await response.json();
       
       if (data.success) {
-        // Backend returns { success: true, products: [...], total, page, size }
         const productsArray = data.products || [];
         setProducts(productsArray);
       } else {
@@ -110,7 +109,6 @@ export default function ProductsListPage() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="bg-white rounded-lg shadow p-4 mb-6">
         <div className="flex gap-4">
           <div className="flex-1 relative">
@@ -137,7 +135,6 @@ export default function ProductsListPage() {
         </div>
       </div>
 
-      {/* Products Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full">

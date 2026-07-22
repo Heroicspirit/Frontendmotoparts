@@ -14,7 +14,7 @@ export default function CartPage() {
       <Header />
       <main className="flex-1 px-6 py-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
+          
           <div className="flex items-center gap-4 mb-8">
             <Link href="/user/dashboard" className="p-2 rounded-full hover:bg-slate-800 transition">
               <ArrowLeft className="w-5 h-5 text-slate-400" />
@@ -24,7 +24,7 @@ export default function CartPage() {
           </div>
 
           {cartItems.length === 0 ? (
-            /* Empty Cart State */
+            
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="w-24 h-24 rounded-full bg-slate-800/50 flex items-center justify-center mb-6">
                 <ShoppingCart className="w-12 h-12 text-slate-600" />
@@ -39,9 +39,9 @@ export default function CartPage() {
             </Link>
             </div>
         ) : (
-            /* Cart Items */
+            
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-              {/* Cart Items List */}
+              
             <div className="lg:col-span-2 space-y-4">
                 {cartItems.map((item) => (
                 <div key={item.product} className="bg-[#151923] border border-slate-800 rounded-xl p-4 flex gap-4">
@@ -85,7 +85,6 @@ export default function CartPage() {
                 ))}
               </div>
 
-              {/* Order Summary */}
               <div className="lg:col-span-1">
                 <div className="bg-[#151923] border border-slate-800 rounded-xl p-6 sticky top-8">
                   <h2 className="text-lg font-semibold text-white mb-4">Order Summary</h2>
@@ -122,7 +121,6 @@ export default function CartPage() {
         </div>
       </main>
 
-      {/* FOOTER */}
       <footer className="border-t border-slate-900 bg-slate-950/40 px-6 py-12 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="space-y-2 text-center sm:text-left">

@@ -9,6 +9,7 @@ export const API = {
     },
     PRODUCTS: {
         GET_ALL: '/api/products',
+        SEARCH: '/api/products/search',
         GET_FEATURED: '/api/products/featured',
         GET_BY_CATEGORY: (category: string) => `/api/products/category/${category}`,
         GET_BY_ID: (id: string) => `/api/products/${id}`,
