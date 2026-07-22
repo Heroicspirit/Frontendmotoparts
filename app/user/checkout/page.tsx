@@ -32,7 +32,6 @@ export default function CheckoutPage() {
       return;
     }
 
-    // No backend call yet — order is only created once payment method is confirmed.
     const pendingOrder = {
       items: cartItems.map(item => ({
         product: item.product,
@@ -62,7 +61,6 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
       <Header />
 
-      {/* MAIN CHECKOUT GRID */}
       <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 pb-12">
         {cartItems.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 text-center">
@@ -78,11 +76,9 @@ export default function CheckoutPage() {
           </div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            
-            {/* LEFT COLUMN (Shipping & Review Items) */}
+
             <div className="lg:col-span-8 space-y-6">
-              
-              {/* Shipping Information Section */}
+
               <div className="bg-[#151923] border border-slate-800 rounded-xl p-6 lg:p-8 space-y-6">
                 <h2 className="text-lg font-semibold text-white flex items-center gap-3">
                   <Truck size={20} className="text-slate-300" /> Shipping Information
@@ -90,7 +86,7 @@ export default function CheckoutPage() {
                 
                 <form id="checkout-form" onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  {/* First Name */}
+                  
                   <div className="space-y-1.5">
                     <label className="text-sm text-slate-300">First Name</label>
                     <input 
@@ -102,7 +98,7 @@ export default function CheckoutPage() {
                       className="w-full bg-white border border-slate-200 rounded-md p-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 transition" 
                     />
                   </div>
-                  {/* Last Name */}
+                  
                   <div className="space-y-1.5">
                     <label className="text-sm text-slate-300">Last Name</label>
                     <input 
@@ -114,7 +110,7 @@ export default function CheckoutPage() {
                       className="w-full bg-white border border-slate-200 rounded-md p-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 transition" 
                     />
                   </div>
-                  {/* Phone Number */}
+                  
                   <div className="space-y-1.5">
                     <label className="text-sm text-slate-300">Phone Number</label>
                     <input 
@@ -126,7 +122,7 @@ export default function CheckoutPage() {
                       className="w-full bg-white border border-slate-200 rounded-md p-3 text-sm text-slate-900 outline-none focus:ring-2 focus:ring-blue-500 transition" 
                     />
                   </div>
-                  {/* City */}
+                  
                   <div className="space-y-1.5">
                     <label className="text-sm text-slate-300">City</label>
                     <input 
@@ -139,7 +135,7 @@ export default function CheckoutPage() {
                     />
                   </div>
                 </div>
-                {/* Full Address */}
+                
                 <div className="space-y-1.5">
                   <label className="text-sm text-slate-300">Building/Street/Landmark Address</label>
                   <input 
@@ -154,7 +150,6 @@ export default function CheckoutPage() {
               </form>
             </div>
 
-            {/* Review Items Section */}
             <div className="bg-[#151923] border border-slate-800 rounded-xl p-6 lg:p-8 space-y-6">
               <h2 className="text-lg font-semibold text-white flex items-center gap-3">
                 <ShoppingBag size={20} className="text-slate-300" /> Review Items
@@ -191,12 +186,10 @@ export default function CheckoutPage() {
 
           </div>
 
-          {/* RIGHT COLUMN (Order Summary) */}
           <div className="lg:col-span-4">
             <div className="bg-[#151923] border border-slate-800 rounded-xl p-6 lg:p-8 space-y-6 sticky top-8">
               <h2 className="text-lg font-semibold text-white">Order Summary</h2>
 
-              {/* Mini Cart Items */}
               {cartItems.slice(0, 2).map((item) => (
                 <div key={item.product} className="flex items-center gap-4 pb-4 border-b border-slate-800 last:border-0">
                   <div className="w-16 h-12 rounded bg-[#0a0c10] overflow-hidden shrink-0">
@@ -221,7 +214,6 @@ export default function CheckoutPage() {
                 </div>
               )}
 
-              {/* Totals Breakdown */}
               <div className="space-y-3 text-sm border-b border-slate-800 pb-6">
                 <div className="flex justify-between text-slate-300">
                   <span>Items Total</span>
@@ -233,13 +225,11 @@ export default function CheckoutPage() {
                 </div>
               </div>
 
-              {/* Grand Total */}
               <div className="flex items-baseline justify-between pt-2">
                 <span className="text-xl font-bold text-white">Total</span>
                 <span className="text-xl font-bold text-white">Rs {cartTotal.toFixed(2)}</span>
               </div>
 
-              {/* Action Button */}
               <button 
                 type="submit"
                 form="checkout-form"
@@ -248,7 +238,6 @@ export default function CheckoutPage() {
                 CONTINUE TO REVIEW <ArrowRight size={16} />
               </button>
 
-              {/* Trust Badges */}
               <div className="grid grid-cols-2 gap-4 pt-4 text-[10px] sm:text-xs text-slate-400">
                 <div className="flex items-center gap-2">
                   <ShieldCheck size={16} className="text-slate-500 shrink-0" />

@@ -34,7 +34,6 @@ export default function ProductDetailPage() {
       const response = await getProductById(id);
       if (response.success && response.data) {
         setProduct(response.data);
-        // Fetch related products from same category
         fetchRelatedProducts(response.data.category, id);
       } else {
         setError('Product not found');
@@ -52,7 +51,6 @@ export default function ProductDetailPage() {
       const response = await getProductsByCategory(category);
       if (response.success) {
         const products = response.data || response.products || [];
-        // Filter out current product and limit to 4
         const related = products
           .filter((p: any) => (p._id || p.id) !== currentId)
           .slice(0, 4);
@@ -114,8 +112,7 @@ export default function ProductDetailPage() {
       <Header />
       <main className="flex-1 p-4 lg:p-8">
       <div className="max-w-6xl mx-auto space-y-16">
-        
-        {/* BACK TO BROWSE ACTION TIMELINE */}
+
         <div className="flex items-center justify-between border-b border-slate-900 pb-4">
           <Link href="/user/bikeparts" className="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition">
             <ArrowLeft size={14} /> Back to Catalog
@@ -123,10 +120,8 @@ export default function ProductDetailPage() {
           <span className="text-[11px] text-slate-500 font-medium">Product Reference: #{product._id?.slice(-6) || product.id?.slice(-6)}</span>
         </div>
 
-        {/* COMPONENT LAYOUT MATRIX SPLIT GRID */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          
-          {/* LEFT: IMAGE VIEWPORT GALLERY STACK */}
+
           <div className="space-y-4">
             <div className="relative rounded-2xl overflow-hidden bg-[#111319] border border-slate-900 aspect-square flex items-center justify-center">
               {product.featured && (
@@ -147,7 +142,6 @@ export default function ProductDetailPage() {
               />
             </div>
 
-            {/* Gallery Mini Previews Row */}
             <div className="grid grid-cols-3 gap-4">
               {images.map((img: string, idx: number) => (
                 <button
@@ -163,7 +157,6 @@ export default function ProductDetailPage() {
             </div>
           </div>
 
-          {/* RIGHT: META INFO, PRICE, TECHNICAL SPECS TABLE */}
           <div className="space-y-6">
             <div className="space-y-2">
               <span className="text-xs font-bold text-slate-500 tracking-wider uppercase">
@@ -172,8 +165,7 @@ export default function ProductDetailPage() {
               <h1 className="text-3xl font-extrabold text-white tracking-tight leading-tight">
                 {product.title}
               </h1>
-              
-              {/* Reviews & Star Rating Row */}
+
               <div className="flex items-center gap-2 pt-1">
                 <div className="flex items-center text-blue-500">
                   {[...Array(5)].map((_, i) => (
@@ -186,7 +178,6 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Pricing Section Details */}
             <div className="flex items-baseline gap-3 pt-2">
               <span className="text-2xl font-black text-white">
                 Rs {product.price}
@@ -203,7 +194,6 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Stock Status */}
             <div className="flex items-center gap-2">
               <span className={`text-xs font-bold px-2 py-1 rounded ${
                 product.stock > 0 
@@ -214,7 +204,6 @@ export default function ProductDetailPage() {
               </span>
             </div>
 
-            {/* TECHNICAL SPECIFICATIONS TABLE COMPONENT */}
             {specs.length > 0 && (
               <div className="space-y-3 pt-4 border-t border-slate-900">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -231,7 +220,6 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* Description */}
             {product.description && (
               <div className="space-y-2 pt-4 border-t border-slate-900">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400">
@@ -243,9 +231,8 @@ export default function ProductDetailPage() {
               </div>
             )}
 
-            {/* PURCHASE & ACTIONS COUNTER HUD */}
             <div className="flex items-center gap-3 pt-6">
-              {/* Incremental Stepper */}
+              
               <div className="flex items-center bg-[#111319] border border-slate-900 rounded-xl h-11">
                 <button 
                   onClick={() => setQuantity(q => Math.max(1, q - 1))}
@@ -264,7 +251,6 @@ export default function ProductDetailPage() {
                 </button>
               </div>
 
-              {/* Add to selection basket */}
               <button
                 onClick={handleAddToCart}
                 className="flex-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 font-bold text-xs h-11 px-4 rounded-xl transition flex items-center justify-center gap-2"
@@ -272,7 +258,6 @@ export default function ProductDetailPage() {
                 <ShoppingCart size={14} /> Add to Cart
               </button>
 
-              {/* Immediate Checkout Trigger */}
               <button
                 onClick={handleBuyNow}
                 className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-bold text-xs h-11 px-4 rounded-xl transition flex items-center justify-center gap-2 shadow-md shadow-blue-500/10"
@@ -284,7 +269,6 @@ export default function ProductDetailPage() {
 
         </div>
 
-        {/* RECOMMENDATION BLOCK (YOU MAY ALSO LIKE) */}
         {relatedProducts.length > 0 && (
           <section className="space-y-6 pt-12 border-t border-slate-900">
             <div className="flex items-center justify-between">

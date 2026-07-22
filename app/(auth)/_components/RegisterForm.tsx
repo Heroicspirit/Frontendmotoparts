@@ -42,13 +42,12 @@ export default function RegisterForm() {
 
     return (
         <div className="w-full max-w-md mx-auto text-slate-200">
-            {/* Header Area matching image_91d19a.png */}
+            
             <div className="space-y-1 mb-6">
                 <h1 className="text-2xl font-bold text-white tracking-wide">Create Account</h1>
                 <p className="text-xs text-slate-300/80">Join the community of performance enthusiasts.</p>
             </div>
 
-            {/* Third-party Provider (Google Auth Placeholder) */}
             <button
                 type="button"
                 onClick={() => window.location.href = 'http://localhost:5001/api/auth/google'}
@@ -75,7 +74,6 @@ export default function RegisterForm() {
                 Continue with Google
             </button>
 
-            {/* Split Decorative Rule text element */}
             <div className="relative flex py-5 items-center">
                 <div className="flex-grow border-t border-slate-500/20"></div>
                 <span className="flex-shrink mx-4 text-[9px] font-bold text-slate-400 tracking-widest uppercase">
@@ -85,14 +83,13 @@ export default function RegisterForm() {
             </div>
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {/* Server error visual container block */}
+                
                 {serverError && (
                     <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-2.5 rounded-lg text-xs font-medium animate-in fade-in duration-200">
                         {serverError}
                     </div>
                 )}
 
-                {/* Full Name Section */}
                 <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Full Name</label>
                     <input
@@ -105,7 +102,6 @@ export default function RegisterForm() {
                     {errors.name && <p className="text-[11px] text-red-400 font-medium pt-0.5">{errors.name.message}</p>}
                 </div>
 
-                {/* Email Section */}
                 <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Email Address</label>
                     <input
@@ -119,9 +115,8 @@ export default function RegisterForm() {
                     {errors.email && <p className="text-[11px] text-red-400 font-medium pt-0.5">{errors.email.message}</p>}
                 </div>
 
-                {/* Double Split Grid Column Layout Container Row for Password Inputs */}
                 <div className="grid grid-cols-2 gap-4">
-                    {/* Password */}
+                    
                     <div className="space-y-1">
                         <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Password</label>
                         <input
@@ -135,7 +130,6 @@ export default function RegisterForm() {
                         {errors.password && <p className="text-[11px] text-red-400 font-medium pt-0.5">{errors.password.message}</p>}
                     </div>
 
-                    {/* Confirm Password */}
                     <div className="space-y-1">
                         <label className="text-[10px] font-bold text-slate-300 uppercase tracking-wider block">Confirm Password</label>
                         <input
@@ -150,7 +144,6 @@ export default function RegisterForm() {
                     </div>
                 </div>
 
-                {/* Terms Acceptance node anchor block layout section */}
                 <div className="flex items-center gap-2 pt-1">
                     <input 
                         type="checkbox" 
@@ -162,7 +155,6 @@ export default function RegisterForm() {
                     </span>
                 </div>
 
-                {/* Submission CTA Trigger Button Action element route handler */}
                 <button
                     type="submit"
                     disabled={isPending}
@@ -173,7 +165,6 @@ export default function RegisterForm() {
                 </button>
             </form>
 
-            {/* Bottom text navigation route target trigger link matching image design markup view link footer */}
             <div className="text-center mt-6">
                 <p className="text-xs text-slate-300/80">
                     Already have an account?{" "}

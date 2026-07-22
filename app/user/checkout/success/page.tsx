@@ -50,12 +50,10 @@ export default function OrderSuccessPage() {
 
   return (
     <div className="min-h-screen bg-[#0a0c10] text-slate-200 antialiased font-sans flex flex-col justify-between">
-      
-      {/* HEADER NAVIGATION BAR */}
+
       <nav className="bg-[#0a0c10] border-b border-slate-900/80 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-          
-          {/* Logo & Category Links */}
+
           <div className="flex items-center gap-8">
             <Link href="/" className="text-xl font-black tracking-tight text-white">
               Moto<span className="text-blue-500">Parts</span>
@@ -69,7 +67,6 @@ export default function OrderSuccessPage() {
             </div>
           </div>
 
-          {/* Search Bar & Toolbar Icons */}
           <div className="flex items-center gap-6 flex-1 max-w-md justify-end md:flex-initial">
             <div className="relative w-full max-w-[240px] hidden sm:block">
               <input 
@@ -99,10 +96,8 @@ export default function OrderSuccessPage() {
         </div>
       </nav>
 
-      {/* MAIN BODY CONTENT CONTAINER */}
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 space-y-12">
-        
-        {/* CENTERED SUCCESS HERO STATEMENT */}
+
         <div className="flex flex-col items-center text-center space-y-4">
           <div className="w-14 h-14 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full flex items-center justify-center">
             <CheckCircle2 size={28} />
@@ -113,13 +108,10 @@ export default function OrderSuccessPage() {
           </div>
         </div>
 
-        {/* CORE INTERFACE HUB GRID LAYOUT */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* LEFT SECTION BLOCKS */}
+
           <div className="lg:col-span-7 space-y-6">
-            
-            {/* ORDER IDENTIFIER BANNER */}
+
             <div className="bg-[#11141e] border border-slate-850 rounded-xl p-5 flex items-center justify-between">
               <div className="space-y-1">
                 <span className="text-[10px] font-extrabold text-slate-500 uppercase tracking-widest block">Order Identifier</span>
@@ -128,14 +120,13 @@ export default function OrderSuccessPage() {
                   <Calendar size={12} className="text-slate-500" /> Order Date: {orderDate}
                 </span>
               </div>
-              {/* Dynamic Status Pill Badge */}
+              
               <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-500/5 border border-blue-500/20 text-[11px] font-bold text-blue-400">
                 <span className="w-1.5 h-1.5 bg-blue-400 rounded-full"></span>
                 Status: Confirmed
               </div>
             </div>
 
-            {/* PURCHASED ITEMS STACK VIEW BOX */}
             <div className="bg-[#11141e] border border-slate-850 rounded-xl p-6 space-y-5">
               <h2 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Purchased Items</h2>
 
@@ -157,7 +148,6 @@ export default function OrderSuccessPage() {
               ))}
             </div>
 
-            {/* ESTIMATED DELIVERY BLOCK METRIC */}
             <div className="bg-[#11141e] border border-slate-850 rounded-xl p-6 flex gap-4 items-start">
               <div className="w-10 h-10 rounded-xl bg-[#171b26] border border-slate-800 flex items-center justify-center text-slate-400 shrink-0">
                 <Truck size={18} />
@@ -171,16 +161,13 @@ export default function OrderSuccessPage() {
 
           </div>
 
-          {/* RIGHT SECTION SIDEBAR BLOCKS */}
           <div className="lg:col-span-5 space-y-6">
-            
-            {/* SHIPPING DESTINATION CARD VIEW */}
+
             <div className="bg-[#11141e] border border-slate-850 rounded-xl p-6 space-y-5">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
                 <MapPin size={13} className="text-slate-400" /> Shipping To
               </h3>
-              
-              {/* Formatted Address Information Text */}
+
               <div className="text-xs text-slate-300 space-y-1 leading-relaxed pl-1">
                 <div className="font-bold text-white text-xs pb-0.5">{shippingAddress.firstName} {shippingAddress.lastName}</div>
                 <div>{shippingAddress.address}</div>
@@ -188,17 +175,14 @@ export default function OrderSuccessPage() {
                 <div>{shippingAddress.phone}</div>
               </div>
 
-              {/* Payment Method */}
               <div className="text-xs text-slate-400 pt-2">
                 <span className="font-bold text-white">Payment Method:</span> {paymentMethod === 'cod' ? 'Cash on Delivery' : paymentMethod === 'wallet' ? 'Khalti / IME Pay' : paymentMethod}
               </div>
             </div>
 
-            {/* ORDER TOTAL SUMMARY DETAIL PANEL */}
             <div className="bg-[#11141e] border border-slate-850 rounded-xl p-6 space-y-5">
               <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Order Total</h3>
 
-              {/* Pricing breakdown arrays */}
               <div className="space-y-4 text-xs border-b border-slate-900 pb-5">
                 <div className="flex justify-between items-center text-slate-400">
                   <span>Subtotal</span>
@@ -214,7 +198,6 @@ export default function OrderSuccessPage() {
                 </div>
               </div>
 
-              {/* Total Final Paid Block Display */}
               <div className="flex justify-between items-baseline pt-1">
                 <span className="text-xs font-medium text-slate-400">Total Amount Paid</span>
                 <span className="text-xl font-black text-blue-400">Rs {total.toFixed(2)}</span>
@@ -225,7 +208,6 @@ export default function OrderSuccessPage() {
 
         </div>
 
-        {/* BOTTOM REDIRECT ACTION LINK */}
         <div className="flex justify-center pt-4">
           <Link href="/user/dashboard" className="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition group">
             <ArrowLeft size={13} className="group-hover:-translate-x-0.5 transition" /> Back to Dashboard
@@ -234,7 +216,6 @@ export default function OrderSuccessPage() {
 
       </main>
 
-      {/* SYSTEM BAR FOOTER */}
       <footer className="bg-[#090b10] border-t border-slate-900 text-[11px] text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex flex-col items-center sm:items-start gap-1">

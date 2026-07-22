@@ -24,15 +24,12 @@ export const getAuthToken = async () => {
 }
 export const setUserData = async (userData: any) => {
     const cookieStore = await cookies();
-    // cookie can only store string
-    // convert object to string -> JSON.stringify "{}"
     cookieStore.set({ name: "user_data", value: JSON.stringify(userData) })
 }
 export const getUserData = async () => {
     const cookieStore = await cookies();
     const userData = cookieStore.get("user_data")?.value;
     if (userData) {
-        // convert string to object -> JSON.parse
         return JSON.parse(userData);
     }
     return null;

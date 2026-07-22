@@ -8,22 +8,22 @@ import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { loginSchema, type LoginValue } from "../schema";
 import { handleLogin } from "@/lib/actions/auth-action";
 import { useState, useTransition, useEffect } from "react";
+import { useAuth } from "@/context/AuthContext";
 
 export default function LoginForm() {
   const router = useRouter();
+  const { setIsAuthenticated, setUser } = useAuth();
   const [serverError, setServerError] = useState<string | null>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isPending, startTransition] = useTransition();
 
-  // Handle Google OAuth callback
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const token = urlParams.get('token');
     const error = urlParams.get('error');
 
     if (token) {
-      // Store token and redirect
-      document.cookie = `auth_token=${token}; path=/; max-age=2592000`; // 30 days
+      document.cookie = `auth_token=${token}; path=/; max-age=2592000`;
       document.cookie = `user_data=${encodeURIComponent(JSON.stringify({}))}; path=/; max-age=2592000`;
       router.replace('/user/dashboard');
     } else if (error === 'google_auth_failed') {
@@ -47,13 +47,14 @@ export default function LoginForm() {
         const result = await handleLogin(data);
 
         if (result.success) {
-          // Set cookies client-side for immediate access
           document.cookie = `auth_token=${result.token}; path=/; max-age=2592000`;
           document.cookie = `user_data=${encodeURIComponent(JSON.stringify(result.data))}; path=/; max-age=2592000`;
           
-          // Also set localStorage for AuthContext compatibility
           localStorage.setItem('token', result.token);
           localStorage.setItem('user', JSON.stringify(result.data));
+          
+          setIsAuthenticated(true);
+          setUser(result.data);
           
           if (result.data?.role === 'admin') {
              router.replace("/admin");
@@ -81,7 +82,6 @@ export default function LoginForm() {
           </div>
         )}
 
-        {/* EMAIL FIELD */}
         <div className="space-y-2">
           <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Email Address</label>
           <div className="relative">
@@ -98,7 +98,6 @@ export default function LoginForm() {
           {errors.email && <p className="text-[11px] text-red-400 font-medium pl-1">{errors.email.message}</p>}
         </div>
 
-        {/* PASSWORD FIELD */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
             <label className="text-xs font-semibold text-slate-300 uppercase tracking-wider">Password</label>
@@ -127,7 +126,6 @@ export default function LoginForm() {
           {errors.password && <p className="text-[11px] text-red-400 font-medium pl-1">{errors.password.message}</p>}
         </div>
 
-        {/* REMEMBER ME CHECKBOX */}
         <div className="flex items-center pt-0.5">
           <label className="flex items-center gap-2.5 cursor-pointer select-none group text-sm text-slate-400 hover:text-slate-300 transition-colors">
             <input 
@@ -138,7 +136,6 @@ export default function LoginForm() {
           </label>
         </div>
 
-        {/* SUBMIT BUTTON */}
         <button
           type="submit"
           disabled={isPending}
@@ -148,7 +145,6 @@ export default function LoginForm() {
         </button>
       </form>
 
-      {/* CONTINUITY SEPARATOR */}
       <div className="relative flex items-center justify-center my-6">
         <div className="absolute inset-x-0 h-px bg-slate-800/60" />
         <span className="relative bg-[#121620] px-4 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
@@ -156,7 +152,6 @@ export default function LoginForm() {
         </span>
       </div>
 
-      {/* SSO GOOGLE INTEGRATION */}
       <button
         type="button"
         onClick={() => window.location.href = 'http://localhost:5001/api/auth/google'}
@@ -171,7 +166,6 @@ export default function LoginForm() {
         Google Account
       </button>
 
-      {/* FOOTER SWITCH */}
       <div className="pt-4 text-center">
         <p className="text-sm text-slate-400">
           Don't have an account?{" "}

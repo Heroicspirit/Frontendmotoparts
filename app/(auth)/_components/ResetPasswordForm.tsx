@@ -53,7 +53,6 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
         </div>
       )}
 
-      {/* New Password */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="password">
           New password
@@ -82,7 +81,6 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
         )}
       </div>
 
-      {/* Confirm Password */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="confirmPassword">
           Confirm password
@@ -111,7 +109,6 @@ const ResetPasswordForm = ({ token }: { token: string }) => {
         )}
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={isSubmitting || pending}

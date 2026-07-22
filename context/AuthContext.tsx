@@ -21,14 +21,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     const checkAuth = async () => {
         try {
-            // Check URL params for token (from OAuth redirects)
             const urlParams = new URLSearchParams(window.location.search);
             const urlToken = urlParams.get('token');
             
             if (urlToken) {
-                // Set token from URL and clean up URL
                 document.cookie = `auth_token=${urlToken}; path=/; max-age=604800`;
-                // Also set localStorage for components that rely on it (e.g. payment page)
                 localStorage.setItem('token', urlToken);
                 window.history.replaceState({}, '', window.location.pathname);
                 setIsAuthenticated(true);
@@ -36,7 +33,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 return;
             }
 
-            // Check for token in localStorage (client-side fallback)
             const localToken = localStorage.getItem('token');
             if (localToken) {
                 setIsAuthenticated(true);
@@ -48,7 +44,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                 return;
             }
 
-            // Check document.cookie as fallback
             const token = document.cookie.split('; ').find(row => row.startsWith('auth_token='));
             const userData = document.cookie.split('; ').find(row => row.startsWith('user_data='));
             

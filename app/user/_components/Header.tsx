@@ -2,9 +2,10 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Search, ShoppingCart, User } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { Search, ShoppingCart, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
+import { useAuth } from "@/context/AuthContext";
 
 const NAV_LINKS = [
     { href: "/user/dashboard", label: "Home" },
@@ -16,20 +17,36 @@ const NAV_LINKS = [
 export default function Header() {
     const pathname = usePathname();
     const [open, setOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const menuRef = useRef<HTMLDivElement>(null);
     const { cartCount } = useCart();
+    const { logout, user } = useAuth();
 
     const isActive = (href: string) => pathname?.startsWith(href);
+
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+                setUserMenuOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, []);
+
+    const handleLogout = () => {
+        setUserMenuOpen(false);
+        logout();
+    };
 
     return (
         <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#0f1115]/90 backdrop-blur-md px-6 py-4">
             <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-              
-              {/* Logo */}
+
               <Link href="/user/dashboard" className="text-xl font-bold tracking-tight text-white hover:opacity-90 transition">
                 Moto<span className="text-blue-400">Parts</span>
               </Link>
 
-              {/* Navigation Links */}
               <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-400">
                 <Link href="/user/dashboard" className="text-white border-b-2 border-blue-400 pb-0.5">Home</Link>
                 <Link href="/user/bikeparts" className="hover:text-white transition">Bike Parts</Link>
@@ -37,7 +54,6 @@ export default function Header() {
                 <a href="#" className="hover:text-white transition">Offers</a>
               </nav>
 
-              {/* Search Bar */}
               <div className="relative flex-1 max-w-md mx-4 hidden sm:block">
                 <span className="absolute inset-y-0 left-3 flex items-center text-slate-400">
                   <Search className="w-4 h-4" />
@@ -49,9 +65,8 @@ export default function Header() {
                 />
               </div>
 
-              {/* Actions Block */}
               <div className="flex items-center gap-3">
-                {/* Shopping Cart */}
+                
                 <Link href="/user/cart" className="relative p-2 text-slate-400 hover:text-white transition mr-1">
                   <ShoppingCart className="w-5 h-5" />
                   {cartCount > 0 && (
@@ -61,15 +76,36 @@ export default function Header() {
                   )}
                 </Link>
 
-                {/* User Button */}
-                <div className="flex items-center gap-2 border-l border-slate-800 pl-3">
-                  <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
-                    <User className="w-4 h-4" />
-                  </div>
-                  <span className="text-xs font-semibold text-slate-300 hidden md:inline">Dashboard</span>
+                <div className="relative" ref={menuRef}>
+                  <button
+                    onClick={() => setUserMenuOpen(!userMenuOpen)}
+                    className="flex items-center gap-2 border-l border-slate-800 pl-3 hover:opacity-80 transition cursor-pointer"
+                  >
+                    <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-slate-300">
+                      <User className="w-4 h-4" />
+                    </div>
+                    <span className="text-xs font-semibold text-slate-300 hidden md:inline">
+                      {user?.name || 'Dashboard'}
+                    </span>
+                  </button>
+
+                  {userMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-48 bg-[#1a1f2e] border border-slate-700/60 rounded-xl shadow-2xl shadow-black/40 py-2 animate-in fade-in slide-in-from-top-2 duration-200">
+                      <div className="px-4 py-2 border-b border-slate-700/50">
+                        <p className="text-xs font-semibold text-white truncate">{user?.name || 'User'}</p>
+                        <p className="text-[10px] text-slate-400 truncate">{user?.email || ''}</p>
+                      </div>
+                      <button
+                        onClick={handleLogout}
+                        className="w-full flex items-center gap-2.5 px-4 py-2.5 text-xs text-red-400 hover:bg-red-500/10 transition-colors"
+                      >
+                        <LogOut size={14} />
+                        Sign Out
+                      </button>
+                    </div>
+                  )}
                 </div>
 
-                {/* Mobile hamburger */}
                 <button
                   type="button"
                   onClick={() => setOpen((v) => !v)}
@@ -90,7 +126,6 @@ export default function Header() {
               </div>
             </div>
 
-            {/* Mobile panel */}
             <div className={"md:hidden overflow-hidden transition-[max-height] duration-300 " + (open ? "max-h-96" : "max-h-0")}>
               <div className="pb-4 pt-2 border-t border-slate-800">
                 <div className="flex flex-col gap-2">
@@ -103,6 +138,14 @@ export default function Header() {
                       {link.label}
                     </Link>
                   ))}
+                  
+                  <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-2 py-2 text-red-400 hover:text-red-300 transition-colors"
+                  >
+                    <LogOut size={14} />
+                    Sign Out
+                  </button>
                 </div>
               </div>
             </div>
