@@ -65,3 +65,14 @@ export const deleteProduct = async (id: string) => {
     throw new Error(error.response?.data?.message || error.message || 'Failed to delete product');
   }
 };
+
+export const searchProducts = async (query: string, page = 1, size = 10) => {
+  try {
+    const response = await axios.get(API.PRODUCTS.SEARCH, {
+      params: { q: query, page, size }
+    });
+    return response.data;
+  } catch (error: Error | any) {
+    throw new Error(error.response?.data?.message || error.message || 'Failed to search products');
+  }
+};

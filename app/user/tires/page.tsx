@@ -9,13 +9,14 @@ import {
   ChevronLeft, 
   ChevronRight, 
   CheckCircle2, 
-  X 
+  X,
+  Search 
 } from "lucide-react";
 import Header from "../_components/Header";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
-import { getProductsByCategory } from "@/lib/api/products";
+import { getProductsByCategory, searchProducts } from "@/lib/api/products";
 
 export default function TiresPage() {
   const router = useRouter();
@@ -25,6 +26,8 @@ export default function TiresPage() {
   const [favorites, setFavorites] = useState<number[]>([]);
   const [showToast, setShowToast] = useState(false);
   const [selectedBrand, setSelectedBrand] = useState<string>("Pirelli");
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
     fetchProducts();
@@ -42,6 +45,27 @@ export default function TiresPage() {
       setProducts([]);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSearch = async (query: string) => {
+    setSearchQuery(query);
+    if (!query.trim()) {
+      fetchProducts();
+      return;
+    }
+
+    try {
+      setIsSearching(true);
+      const response = await searchProducts(query);
+      if (response.success) {
+        setProducts(response.data || response.products || []);
+      }
+    } catch (error) {
+      console.error('Failed to search products:', error);
+      setProducts([]);
+    } finally {
+      setIsSearching(false);
     }
   };
 
@@ -192,6 +216,26 @@ export default function TiresPage() {
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">Tires</h1>
               <p className="text-xs text-slate-500 pt-0.5">Showing 1-12 of 89 results</p>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full sm:w-64">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500" />
+              <input
+                type="text"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => handleSearch(e.target.value)}
+                className="w-full bg-[#111319] border border-slate-800/80 rounded-xl pl-10 pr-4 py-2 text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-slate-700 transition"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => handleSearch('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
             </div>
 
             {/* Sorting Options */}
