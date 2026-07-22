@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState, useRef, useEffect } from "react";
 import { Search, ShoppingCart, User, LogOut } from "lucide-react";
 import { useCart } from "@/context/CartContext";
@@ -16,8 +16,10 @@ const NAV_LINKS = [
 
 export default function Header() {
     const pathname = usePathname();
+    const router = useRouter();
     const [open, setOpen] = useState(false);
     const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [headerSearch, setHeaderSearch] = useState('');
     const menuRef = useRef<HTMLDivElement>(null);
     const { cartCount } = useCart();
     const { logout, user } = useAuth();
@@ -61,6 +63,14 @@ export default function Header() {
                 <input 
                   type="text" 
                   placeholder="Search parts..." 
+                  value={headerSearch}
+                  onChange={(e) => setHeaderSearch(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && headerSearch.trim()) {
+                      router.push(`/user/bikeparts?q=${encodeURIComponent(headerSearch.trim())}`);
+                      setHeaderSearch('');
+                    }
+                  }}
                   className="w-full bg-slate-900/60 border border-slate-800 rounded-full py-1.5 pl-10 pr-4 text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500 transition"
                 />
               </div>

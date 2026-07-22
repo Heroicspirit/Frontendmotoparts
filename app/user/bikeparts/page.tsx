@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Header from "../_components/Header";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { getProductsByCategory, searchProducts } from "@/lib/api/products";
 
@@ -30,6 +30,7 @@ const SORT_LABELS: Record<SortOption, string> = {
 
 export default function BikePartsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { addToCart } = useCart();
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -41,11 +42,16 @@ export default function BikePartsPage() {
   const [sortOption, setSortOption] = useState<SortOption>("default");
   const [sortMenuOpen, setSortMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [isSearching, setIsSearching] = useState(false);
 
   useEffect(() => {
-    fetchProducts();
-  }, []);
+    const q = searchParams.get('q');
+    if (q) {
+      setSearchQuery(q);
+      handleSearch(q);
+    } else if (products.length === 0) {
+      fetchProducts();
+    }
+  }, [searchParams]);
 
   const fetchProducts = async () => {
     try {
@@ -70,7 +76,7 @@ export default function BikePartsPage() {
     }
 
     try {
-      setIsSearching(true);
+      setLoading(true);
       const response = await searchProducts(query);
       if (response.success) {
         setProducts(response.data || response.products || []);
@@ -79,7 +85,7 @@ export default function BikePartsPage() {
       console.error('Failed to search products:', error);
       setProducts([]);
     } finally {
-      setIsSearching(false);
+      setLoading(false);
     }
   };
 
