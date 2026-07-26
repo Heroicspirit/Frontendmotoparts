@@ -1,10 +1,11 @@
 import React from "react";
 import Link from "next/link";
-import { Search, ShoppingCart, Twitter, Instagram } from "lucide-react";
+import { Search, ShoppingCart } from "lucide-react";
+import Footer from "./_components/Footer";
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#0f1115] text-[#f1f5f9] font-sans antialiased selection:bg-blue-500 selection:text-white">
+    <div className="min-h-screen bg-[#0f1115] text-[#f1f5f9] font-sans antialiased selection:bg-blue-500 selection:text-white flex flex-col">
 
       <header className="sticky top-0 z-50 border-b border-slate-800/80 bg-[#0f1115]/90 backdrop-blur-md px-6 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
@@ -53,29 +54,11 @@ export default function PublicLayout({ children }: { children: React.ReactNode }
         </div>
       </header>
 
-      {children}
+      <div className="flex-1">
+        {children}
+      </div>
 
-      <footer className="border-t border-slate-900 bg-slate-950/40 px-6 py-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center sm:text-left">
-            <div className="text-sm font-bold text-white tracking-tight">
-              Moto<span className="text-blue-400">Parts</span>
-            </div>
-            <p>© 2026 MotoParts. All rights reserved.</p>
-          </div>
-          
-          <div className="flex items-center gap-6 text-slate-400">
-            <a href="#" className="hover:text-white transition">Privacy Policy</a>
-            <a href="#" className="hover:text-white transition">Terms of Service</a>
-            <a href="#" className="hover:text-white transition">Contact Us</a>
-          </div>
-
-          <div className="flex items-center gap-4 text-slate-400">
-            <a href="#" className="hover:text-white transition"><Twitter className="w-4 h-4" /></a>
-            <a href="#" className="hover:text-white transition"><Instagram className="w-4 h-4" /></a>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

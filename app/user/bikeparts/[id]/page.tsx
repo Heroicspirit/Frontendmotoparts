@@ -5,7 +5,6 @@ import { Star, ShoppingCart, ShoppingBag, ArrowLeft, Heart, ArrowRight } from "l
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import Header from "../../_components/Header";
-import Footer from "../../../(public)/_components/Footer";
 import { useCart } from "@/context/CartContext";
 import { getProductById, getProductsByCategory } from "@/lib/api/products";
 
@@ -309,7 +308,6 @@ export default function ProductDetailPage() {
         )}
 
       </div>
-      <Footer />
       </main>
     </div>
   );
