@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Footer from "../(public)/_components/Footer";
 
 export default function AuthLayout({
   children,
@@ -7,8 +6,8 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <section className="min-h-screen w-full flex flex-col overflow-hidden bg-[#121620] antialiased selection:bg-purple-600 selection:text-white">
-      <div className="flex-1 w-full grid grid-cols-1 md:grid-cols-2">
+    <section className="h-screen w-full flex overflow-hidden bg-[#121620] antialiased selection:bg-purple-600 selection:text-white">
+      <div className="h-full w-full grid grid-cols-1 md:grid-cols-2">
 
         <div className="relative hidden md:block h-full w-full bg-[#0a0c10]">
           <div className="absolute inset-0 bg-gradient-to-tr from-purple-500/10 via-transparent to-transparent z-10 pointer-events-none" />
@@ -26,7 +25,6 @@ export default function AuthLayout({
         </div>
 
       </div>
-      <Footer />
     </section>
   );
 }

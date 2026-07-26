@@ -2,18 +2,15 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import { 
-  Search, 
-  ShoppingCart, 
-  User, 
   CheckCircle2, 
   Calendar, 
   Truck, 
   MapPin, 
-  Pencil, 
   ArrowLeft 
 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Header from "../../_components/Header";
 
 export default function OrderSuccessPage() {
   const router = useRouter();
@@ -49,52 +46,8 @@ export default function OrderSuccessPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#0a0c10] text-slate-200 antialiased font-sans flex flex-col justify-between">
-
-      <nav className="bg-[#0a0c10] border-b border-slate-900/80 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-
-          <div className="flex items-center gap-8">
-            <Link href="/" className="text-xl font-black tracking-tight text-white">
-              Moto<span className="text-blue-500">Parts</span>
-            </Link>
-            <div className="hidden md:flex items-center gap-6 text-xs font-bold text-slate-400 tracking-wide uppercase">
-              <Link href="/user/bikeparts" className="hover:text-white transition">Bike Parts</Link>
-              <Link href="/accessories" className="hover:text-white transition">Accessories</Link>
-              <Link href="/user/ridinggear" className="hover:text-white transition">Riding Gear</Link>
-              <Link href="/brands" className="hover:text-white transition">Brands</Link>
-              <Link href="/offers" className="hover:text-white transition">Offers</Link>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-6 flex-1 max-w-md justify-end md:flex-initial">
-            <div className="relative w-full max-w-[240px] hidden sm:block">
-              <input 
-                type="text" 
-                placeholder="Search parts..." 
-                className="w-full bg-[#11141d] border border-slate-800/80 rounded-full py-2 pl-9 pr-4 text-xs text-slate-300 outline-none focus:border-slate-700 transition"
-              />
-              <Search className="absolute left-3 top-2.5 text-slate-500" size={13} />
-            </div>
-            
-            <div className="flex items-center gap-4 text-slate-400">
-              <button className="hover:text-white transition">
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z" />
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h8a1 1 0 001-1z" />
-                </svg>
-              </button>
-              <Link href="/user/cart" className="hover:text-white transition relative">
-                <ShoppingCart size={18} />
-              </Link>
-              <Link href="/user/dashboard" className="hover:text-white transition">
-                <User size={18} />
-              </Link>
-            </div>
-          </div>
-
-        </div>
-      </nav>
+    <div className="min-h-screen bg-[#0f1115] flex flex-col">
+      <Header />
 
       <main className="flex-1 max-w-5xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12 space-y-12">
 
@@ -215,21 +168,6 @@ export default function OrderSuccessPage() {
         </div>
 
       </main>
-
-      <footer className="bg-[#090b10] border-t border-slate-900 text-[11px] text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1">
-            <span className="font-bold text-slate-400">MotoParts</span>
-            <span>© 2024 MotoParts. Precision Engineering for Every Ride.</span>
-          </div>
-          <div className="flex items-center gap-6 font-medium">
-            <Link href="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-slate-300 transition">Contact Us</Link>
-            <Link href="/shipping-info" className="hover:text-slate-300 transition">Shipping Info</Link>
-          </div>
-        </div>
-      </footer>
 
     </div>
   );

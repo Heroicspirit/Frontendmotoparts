@@ -76,6 +76,13 @@ export default function PaymentMethodPage() {
   }
 
   const { items, total } = orderData;
+  
+  // Calculate discount
+  const originalTotal = items.reduce((sum: number, item: any) => {
+    const originalPrice = item.originalPrice || item.price;
+    return sum + (originalPrice * item.quantity);
+  }, 0);
+  const discount = originalTotal - total;
 
   return (
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
@@ -174,8 +181,14 @@ export default function PaymentMethodPage() {
               <div className="space-y-4 text-xs border-t border-b border-slate-900 py-5">
                 <div className="flex justify-between items-center text-slate-400">
                   <span>Subtotal</span>
-                  <span className="text-white font-medium">Rs {total.toFixed(2)}</span>
+                  <span className="text-white font-medium">Rs {originalTotal.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-green-400">Discount</span>
+                    <span className="text-green-400 font-bold">-Rs {discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center text-slate-400">
                   <span>Shipping</span>
                   <span className="text-blue-400 font-bold uppercase tracking-wider text-[10px]">Free</span>
@@ -207,21 +220,6 @@ export default function PaymentMethodPage() {
 
         </div>
       </main>
-
-      <footer className="bg-[#090b10] border-t border-slate-900 text-[11px] text-slate-500">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex flex-col items-center sm:items-start gap-1">
-            <span className="font-bold text-slate-400">MotoParts</span>
-            <span>© 2024 MotoParts. Precision Engineering for Every Ride.</span>
-          </div>
-          <div className="flex items-center gap-6 font-medium">
-            <Link href="/privacy" className="hover:text-slate-300 transition">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-slate-300 transition">Terms of Service</Link>
-            <Link href="/contact" className="hover:text-slate-300 transition">Contact Us</Link>
-            <Link href="/shipping-info" className="hover:text-slate-300 transition">Shipping Info</Link>
-          </div>
-        </div>
-      </footer>
 
     </div>
   );

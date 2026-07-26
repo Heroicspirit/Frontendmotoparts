@@ -9,6 +9,13 @@ import { useCart } from "@/context/CartContext";
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity, cartTotal, clearCart } = useCart();
 
+  // Calculate discount
+  const originalTotal = cartItems.reduce((sum, item) => {
+    const originalPrice = item.originalPrice || item.price;
+    return sum + (originalPrice * item.quantity);
+  }, 0);
+  const discount = originalTotal - cartTotal;
+
   return (
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
       <Header />
@@ -91,8 +98,14 @@ export default function CartPage() {
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between text-slate-300">
                       <span>Subtotal</span>
-                      <span className="text-white">Rs {cartTotal.toFixed(2)}</span>
+                      <span className="text-white">Rs {originalTotal.toFixed(2)}</span>
                     </div>
+                    {discount > 0 && (
+                      <div className="flex justify-between text-green-400">
+                        <span>Discount</span>
+                        <span className="font-bold">-Rs {discount.toFixed(2)}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between text-slate-300">
                       <span>Shipping</span>
                       <span className="text-white">Rs 0</span>

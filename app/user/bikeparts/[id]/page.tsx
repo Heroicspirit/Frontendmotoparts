@@ -67,6 +67,7 @@ export default function ProductDetailPage() {
       title: product.title,
       image: product.images?.[0]?.startsWith('http') ? product.images[0] : `http://localhost:5001${product.images?.[0] || product.image}`,
       price: parseFloat(product.price),
+      originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
       quantity,
     });
   };
@@ -114,7 +115,7 @@ export default function ProductDetailPage() {
 
         <div className="flex items-center justify-between border-b border-slate-900 pb-4">
           <Link href="/user/bikeparts" className="flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition">
-            <ArrowLeft size={14} /> Back to Catalog
+            <ArrowLeft size={14} /> Back to Bikeparts
           </Link>
           <span className="text-[11px] text-slate-500 font-medium">Product Reference: #{product._id?.slice(-6) || product.id?.slice(-6)}</span>
         </div>
