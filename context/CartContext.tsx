@@ -9,6 +9,7 @@ interface CartItem {
   title: string;
   image: string;
   price: number;
+  originalPrice?: number;
   quantity: number;
   _id?: string;
 }
@@ -86,6 +87,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
             title: item.product?.title || item.title,
             image: rawImage.startsWith('http') ? rawImage : `${backendUrl}${rawImage}`,
             price: item.product?.price || item.price,
+            originalPrice: item.product?.originalPrice,
             quantity: item.quantity,
             _id: item._id,
           };

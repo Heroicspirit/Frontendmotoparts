@@ -103,6 +103,7 @@ export default function BikePartsPage() {
       title: product.title,
       image: product.image?.startsWith('http') ? product.image : `http://localhost:5001${product.image}`,
       price: parseFloat(product.price),
+      originalPrice: product.originalPrice ? parseFloat(product.originalPrice) : undefined,
       quantity: 1
     });
     setShowToast(true);

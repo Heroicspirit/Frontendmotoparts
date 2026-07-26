@@ -18,6 +18,13 @@ export default function CheckoutPage() {
     address: ''
   });
 
+  // Calculate discount
+  const originalTotal = cartItems.reduce((sum, item) => {
+    const originalPrice = item.originalPrice || item.price;
+    return sum + (originalPrice * item.quantity);
+  }, 0);
+  const discount = originalTotal - cartTotal;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -155,8 +162,8 @@ export default function CheckoutPage() {
                 <ShoppingBag size={20} className="text-slate-300" /> Review Items
               </h2>
 
-              {cartItems.map((item) => (
-                <div key={item.product} className="bg-[#1b202c] rounded-xl p-4 flex flex-col sm:flex-row gap-5 items-center sm:items-start border border-slate-800/60">
+              {cartItems.map((item, index) => (
+                <div key={`${item.product}-${index}`} className="bg-[#1b202c] rounded-xl p-4 flex flex-col sm:flex-row gap-5 items-center sm:items-start border border-slate-800/60">
                   <div className="w-32 h-32 shrink-0 rounded-lg overflow-hidden bg-[#0a0c10]">
                     <img 
                       src={item.image} 
@@ -190,8 +197,8 @@ export default function CheckoutPage() {
             <div className="bg-[#151923] border border-slate-800 rounded-xl p-6 lg:p-8 space-y-6 sticky top-8">
               <h2 className="text-lg font-semibold text-white">Order Summary</h2>
 
-              {cartItems.slice(0, 2).map((item) => (
-                <div key={item.product} className="flex items-center gap-4 pb-4 border-b border-slate-800 last:border-0">
+              {cartItems.slice(0, 2).map((item, index) => (
+                <div key={`${item.product}-${index}`} className="flex items-center gap-4 pb-4 border-b border-slate-800 last:border-0">
                   <div className="w-16 h-12 rounded bg-[#0a0c10] overflow-hidden shrink-0">
                     <img 
                       src={item.image} 
@@ -217,8 +224,14 @@ export default function CheckoutPage() {
               <div className="space-y-3 text-sm border-b border-slate-800 pb-6">
                 <div className="flex justify-between text-slate-300">
                   <span>Items Total</span>
-                  <span className="text-white">Rs {cartTotal.toFixed(2)}</span>
+                  <span className="text-white">Rs {originalTotal.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between text-green-400">
+                    <span>Discount</span>
+                    <span className="font-bold">-Rs {discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between text-slate-300">
                   <span>Shipping</span>
                   <span className="text-white">Rs 0</span>

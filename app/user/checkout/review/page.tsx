@@ -53,6 +53,13 @@ export default function OrderReviewPage() {
   }
 
   const { shippingAddress, items, total, orderNumber } = orderData;
+  
+  // Calculate discount
+  const originalTotal = items.reduce((sum: number, item: any) => {
+    const originalPrice = item.originalPrice || item.price;
+    return sum + (originalPrice * item.quantity);
+  }, 0);
+  const discount = originalTotal - total;
 
   return (
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
@@ -146,8 +153,14 @@ export default function OrderReviewPage() {
               <div className="space-y-4 text-xs border-b border-slate-800/50 pb-5">
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Items Total ({items.length} {items.length === 1 ? 'Item' : 'Items'})</span>
-                  <span className="text-white font-bold">Rs. {total.toFixed(2)}</span>
+                  <span className="text-white font-bold">Rs. {originalTotal.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                  <div className="flex justify-between items-center">
+                    <span className="text-green-400">Discount</span>
+                    <span className="text-green-400 font-bold">-Rs. {discount.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between items-center">
                   <span className="text-slate-400">Shipping</span>
                   <span className="text-white font-bold">Rs. 0</span>
@@ -184,17 +197,6 @@ export default function OrderReviewPage() {
 
         </div>
       </main>
-
-      <footer className="border-t border-slate-900 bg-slate-950/40 px-6 py-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center sm:text-left">
-            <div className="text-sm font-bold text-white tracking-tight">
-              Moto<span className="text-blue-400">Parts</span>
-            </div>
-            <p>© 2026 MotoParts. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
 
     </div>
   );

@@ -203,17 +203,6 @@ export default function UserDashboardPage() {
         </div>
       </section>
       </main>
-
-      <footer className="border-t border-slate-900 bg-slate-950/40 px-6 py-12 text-xs text-slate-500">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 text-center sm:text-left">
-            <div className="text-sm font-bold text-white tracking-tight">
-              Moto<span className="text-blue-400">Parts</span>
-            </div>
-            <p>© 2026 MotoParts. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

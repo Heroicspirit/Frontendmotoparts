@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useState, useTransition, useEffect } from "react";
 import { ArrowRight } from "lucide-react";
 import { registerSchema, type RegisterData } from "../schema";
 import { handleRegister } from "@/lib/actions/auth-action";
@@ -13,14 +13,40 @@ export default function RegisterForm() {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
     const [serverError, setServerError] = useState<string | null>(null);
+    const [passwordMatchError, setPasswordMatchError] = useState<string | null>(null);
+    const [emailError, setEmailError] = useState<string | null>(null);
 
     const {
         register,
         handleSubmit,
+        watch,
         formState: { errors },
     } = useForm<RegisterData>({
         resolver: zodResolver(registerSchema),
+        mode: 'onChange',
     });
+
+    const password = watch('password');
+    const confirmPassword = watch('confirmPassword');
+    const email = watch('email');
+
+    // Real-time password match validation
+    useEffect(() => {
+        if (confirmPassword && password !== confirmPassword) {
+            setPasswordMatchError('Passwords do not match');
+        } else if (confirmPassword) {
+            setPasswordMatchError(null);
+        }
+    }, [password, confirmPassword]);
+
+    // Real-time email validation
+    useEffect(() => {
+        if (email && !email.includes('@')) {
+            setEmailError('Email must contain @ symbol');
+        } else if (email) {
+            setEmailError(null);
+        }
+    }, [email]);
 
     const onSubmit = async (values: RegisterData) => {
         setServerError(null);
@@ -109,10 +135,11 @@ export default function RegisterForm() {
                         type="email"
                         placeholder="your gmail account"
                         className={`w-full px-4 py-2.5 rounded-lg bg-[#1a1d26] text-white border text-xs outline-none transition-all ${
-                            errors.email ? "border-red-500/60 focus:border-red-500" : "border-slate-800/80 focus:border-blue-500/60"
+                            errors.email || emailError ? "border-red-500/60 focus:border-red-500" : "border-slate-800/80 focus:border-blue-500/60"
                         }`}
                     />
                     {errors.email && <p className="text-[11px] text-red-400 font-medium pt-0.5">{errors.email.message}</p>}
+                    {emailError && !errors.email && <p className="text-[11px] text-red-400 font-medium pt-0.5">{emailError}</p>}
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
@@ -141,6 +168,7 @@ export default function RegisterForm() {
                             }`}
                         />
                         {errors.confirmPassword && <p className="text-[11px] text-red-400 font-medium pt-0.5">{errors.confirmPassword.message}</p>}
+                        {passwordMatchError && !errors.confirmPassword && <p className="text-[11px] text-red-400 font-medium pt-0.5">{passwordMatchError}</p>}
                     </div>
                 </div>
 
