@@ -30,7 +30,7 @@ describe('FeaturedCategories Widget - Component Tests', () => {
     const images = screen.getAllByRole('img');
     expect(images).toHaveLength(3);
     expect(images[0]).toHaveAttribute('alt', 'Bike Engine Parts');
-    expect(images[1]).toHaveAttribute('alt', 'Riding Gear Helmet');
+    expect(images[1]).toHaveAttribute('alt', 'Riding Gear');
     expect(images[2]).toHaveAttribute('alt', 'Motorcycle Tires');
   });
 });
