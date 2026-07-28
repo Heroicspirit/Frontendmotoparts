@@ -51,7 +51,7 @@ export default function CartPage() {
               
             <div className="lg:col-span-2 space-y-4">
                 {cartItems.map((item) => (
-                <div key={item.product} className="bg-[#151923] border border-slate-800 rounded-xl p-4 flex gap-4">
+                <div key={item._id || item.product} className="bg-[#151923] border border-slate-800 rounded-xl p-4 flex gap-4">
                     <div className="w-24 h-24 rounded-lg overflow-hidden bg-[#0a0c10] shrink-0">
                     <img 
                         src={item.image} 
