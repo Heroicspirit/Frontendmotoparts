@@ -28,10 +28,10 @@ export default function RidingGearPage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearching, setIsSearching] = useState(false);
-  const [maxPrice, setMaxPrice] = useState<number>(2000);
+  const [maxPrice, setMaxPrice] = useState<number>(MAX_PRICE);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
 
-  const MAX_PRICE = 2000;
+  const MAX_PRICE = 20000;
 
   useEffect(() => {
     fetchProducts();

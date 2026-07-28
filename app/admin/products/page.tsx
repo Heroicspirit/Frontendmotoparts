@@ -185,7 +185,7 @@ export default function AdminAddProductPage() {
                 <option value="bikeparts">Bike Parts</option>
                 <option value="ridinggear">Riding Gear</option>
                 <option value="tires">Tires</option>
-                <option value="accessories">Accessories</option>
+
               </select>
             </div>
 

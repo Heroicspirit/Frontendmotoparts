@@ -28,10 +28,10 @@ export default function TiresPage() {
   const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearching, setIsSearching] = useState(false);
-  const [maxPrice, setMaxPrice] = useState<number>(500);
+  const [maxPrice, setMaxPrice] = useState<number>(MAX_PRICE);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
 
-  const MAX_PRICE = 500;
+  const MAX_PRICE = 20000;
 
   useEffect(() => {
     fetchProducts();
