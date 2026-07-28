@@ -25,9 +25,13 @@ export default function RidingGearPage() {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<(string | number)[]>([]);
   const [showToast, setShowToast] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<string>("Alpinestars");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearching, setIsSearching] = useState(false);
+  const [maxPrice, setMaxPrice] = useState<number>(2000);
+  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
+
+  const MAX_PRICE = 2000;
 
   useEffect(() => {
     fetchProducts();
@@ -98,11 +102,27 @@ export default function RidingGearPage() {
     router.push('/checkout');
   };
 
-  // Filter products by selected brand (case-insensitive, tolerant of missing brand field)
+  const resetFilters = () => {
+    setSelectedBrand("");
+    setMaxPrice(MAX_PRICE);
+    setInStockOnly(false);
+  };
+
   const filteredProducts = products.filter((product: any) => {
-    if (!selectedBrand) return true;
-    if (!product.brand) return false;
-    return product.brand.toLowerCase() === selectedBrand.toLowerCase();
+    if (selectedBrand && product.brand?.toLowerCase() !== selectedBrand.toLowerCase()) {
+      return false;
+    }
+
+    const price = parseFloat(product.price);
+    if (maxPrice < MAX_PRICE && !isNaN(price) && price > maxPrice) {
+      return false;
+    }
+
+    if (inStockOnly && (!product.stock || product.stock <= 0)) {
+      return false;
+    }
+
+    return true;
   });
 
   return (
@@ -157,15 +177,26 @@ export default function RidingGearPage() {
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Price Range</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              <button
+                onClick={resetFilters}
+                className="text-[10px] font-semibold text-blue-400 hover:text-blue-300 transition"
+              >
+                Show All
+              </button>
             </div>
             <div className="space-y-2">
-              <div className="h-1 w-full bg-slate-800 rounded-full relative">
-                <div className="absolute inset-y-0 left-0 right-0 bg-blue-500/30 rounded-full" />
-              </div>
+              <input
+                type="range"
+                min={0}
+                max={MAX_PRICE}
+                step={10}
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="w-full accent-blue-500 cursor-pointer"
+              />
               <div className="flex justify-between text-[11px] font-medium text-slate-500">
-                <span>$0</span>
-                <span>$2000+</span>
+                <span>Rs 0</span>
+                <span>{maxPrice >= MAX_PRICE ? `Rs ${MAX_PRICE}+` : `Rs ${maxPrice}`}</span>
               </div>
             </div>
           </div>
@@ -189,7 +220,8 @@ export default function RidingGearPage() {
             <label className="flex items-center gap-3 text-xs text-slate-400 hover:text-slate-200 cursor-pointer select-none">
               <input 
                 type="checkbox" 
-                defaultChecked 
+                checked={inStockOnly}
+                onChange={(e) => setInStockOnly(e.target.checked)}
                 className="w-4 h-4 rounded border-slate-800 bg-[#111319] text-blue-500 focus:ring-0 accent-blue-500" 
               />
               <span>In Stock</span>
