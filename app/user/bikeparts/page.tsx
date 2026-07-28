@@ -18,7 +18,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { getProductsByCategory, searchProducts } from "@/lib/api/products";
 
-const MAX_PRICE = 2000;
+const MAX_PRICE = 20000;
 
 type SortOption = "default" | "priceHigh" | "priceLow";
 

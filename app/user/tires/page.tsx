@@ -25,9 +25,13 @@ export default function TiresPage() {
   const [loading, setLoading] = useState(true);
   const [favorites, setFavorites] = useState<number[]>([]);
   const [showToast, setShowToast] = useState(false);
-  const [selectedBrand, setSelectedBrand] = useState<string>("Pirelli");
+  const [selectedBrand, setSelectedBrand] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [isSearching, setIsSearching] = useState(false);
+  const [maxPrice, setMaxPrice] = useState<number>(MAX_PRICE);
+  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
+
+  const MAX_PRICE = 20000;
 
   useEffect(() => {
     fetchProducts();
@@ -98,6 +102,29 @@ export default function TiresPage() {
     router.push('/user/checkout');
   };
 
+  const resetFilters = () => {
+    setSelectedBrand("");
+    setMaxPrice(MAX_PRICE);
+    setInStockOnly(false);
+  };
+
+  const filteredProducts = products.filter((product: any) => {
+    if (selectedBrand && product.brand?.toLowerCase() !== selectedBrand.toLowerCase()) {
+      return false;
+    }
+
+    const price = parseFloat(product.price);
+    if (maxPrice < MAX_PRICE && !isNaN(price) && price > maxPrice) {
+      return false;
+    }
+
+    if (inStockOnly && (!product.stock || product.stock <= 0)) {
+      return false;
+    }
+
+    return true;
+  });
+
   return (
     <div className="min-h-screen bg-[#0f1115] flex flex-col">
       <Header />
@@ -138,7 +165,7 @@ export default function TiresPage() {
                   <input 
                     type="checkbox"
                     checked={selectedBrand === brand}
-                    onChange={() => setSelectedBrand(brand)}
+                    onChange={() => setSelectedBrand(prev => prev === brand ? "" : brand)}
                     className="w-4 h-4 rounded border-slate-800 bg-[#111319] text-blue-500 focus:ring-0 accent-blue-500" 
                   />
                   <span>{brand}</span>
@@ -150,15 +177,26 @@ export default function TiresPage() {
           <div className="space-y-3 pt-2">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold text-slate-300 uppercase tracking-wide">Price Range</span>
-              <ChevronDown className="w-3.5 h-3.5 text-slate-500" />
+              <button
+                onClick={resetFilters}
+                className="text-[10px] font-semibold text-blue-400 hover:text-blue-300 transition"
+              >
+                Show All
+              </button>
             </div>
             <div className="space-y-2">
-              <div className="h-1 w-full bg-slate-800 rounded-full relative">
-                <div className="absolute inset-y-0 left-0 right-0 bg-blue-500/30 rounded-full" />
-              </div>
+              <input
+                type="range"
+                min={0}
+                max={MAX_PRICE}
+                step={10}
+                value={maxPrice}
+                onChange={(e) => setMaxPrice(Number(e.target.value))}
+                className="w-full accent-blue-500 cursor-pointer"
+              />
               <div className="flex justify-between text-[11px] font-medium text-slate-500">
-                <span>$0</span>
-                <span>$500+</span>
+                <span>Rs 0</span>
+                <span>{maxPrice >= MAX_PRICE ? `Rs ${MAX_PRICE}+` : `Rs ${maxPrice}`}</span>
               </div>
             </div>
           </div>
@@ -193,7 +231,8 @@ export default function TiresPage() {
             <label className="flex items-center gap-3 text-xs text-slate-400 hover:text-slate-200 cursor-pointer select-none">
               <input 
                 type="checkbox" 
-                defaultChecked 
+                checked={inStockOnly}
+                onChange={(e) => setInStockOnly(e.target.checked)}
                 className="w-4 h-4 rounded border-slate-800 bg-[#111319] text-blue-500 focus:ring-0 accent-blue-500" 
               />
               <span>In Stock</span>
@@ -206,7 +245,9 @@ export default function TiresPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-900">
             <div>
               <h1 className="text-2xl font-bold text-white tracking-tight">Tires</h1>
-              <p className="text-xs text-slate-500 pt-0.5">Showing 1-12 of 89 results</p>
+              <p className="text-xs text-slate-500 pt-0.5">
+                Showing {filteredProducts.length} of {products.length} results
+              </p>
             </div>
 
             <div className="relative w-full sm:w-64">
@@ -237,8 +278,21 @@ export default function TiresPage() {
             </div>
           </div>
 
+          {!loading && filteredProducts.length === 0 && (
+            <div className="flex flex-col items-center justify-center gap-4 text-center text-slate-500 text-sm py-12">
+              <span>No products found for the selected filters.</span>
+              <button
+                onClick={resetFilters}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold text-xs px-5 py-2.5 rounded-full transition"
+              >
+                Show All Products
+              </button>
+            </div>
+          )}
+
+          {!loading && filteredProducts.length > 0 && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {products.map((product: any) => (
+            {filteredProducts.map((product: any) => (
               <div key={product._id || product.id} className="group bg-[#111319] border border-slate-900 rounded-2xl p-4 flex flex-col justify-between space-y-4 hover:border-slate-800 transition duration-150">
 
                 <div className="relative rounded-xl overflow-hidden aspect-square bg-[#0a0c10] flex items-center justify-center">
@@ -311,6 +365,7 @@ export default function TiresPage() {
               </div>
             ))}
           </div>
+          )}
 
           <div className="flex items-center justify-center gap-2 pt-8">
             <button className="p-2 bg-[#111319] border border-slate-900 rounded-xl text-slate-500 hover:text-slate-300 transition disabled:opacity-40" disabled>

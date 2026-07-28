@@ -130,7 +130,6 @@ export default function ProductsListPage() {
             <option value="bikeparts">Bike Parts</option>
             <option value="ridinggear">Riding Gear</option>
             <option value="tires">Tires</option>
-            <option value="accessories">Accessories</option>
           </select>
         </div>
       </div>
@@ -176,7 +175,7 @@ export default function ProductsListPage() {
                         <div className="h-12 w-12 flex-shrink-0">
                           <img
                             className="h-12 w-12 rounded object-cover"
-                            src={product.image || "/placeholder.png"}
+                            src={product.image ? (product.image.startsWith('http') ? product.image : `http://localhost:5001${product.image}`) : '/placeholder.png'}
                             alt=""
                           />
                         </div>
